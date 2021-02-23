@@ -181,9 +181,6 @@ public class Sudoku implements SudokuSolver {
 				
 			}
 		}
-		
-		
-
 	}
 
 	@Override
