@@ -1,35 +1,156 @@
 package sudoku;
 
 public class Sudoku implements SudokuSolver {
+	private int board [][];
+	
+	public Sudoku() {
+//	this.board = new int[c][r];
+//	System.out.print(board[1][1]);
+	}
 
+//	public static void main(String[] args) {
+//		Sudoku s = new Sudoku(2,2);
+//		
+//	}
+	
+	
+	/**
+	 * Sets the number nbr in box r, c.
+	 * 
+	 * @param r
+	 *            The row
+	 * @param c
+	 *            The column
+	 * @param nbr
+	 *            The number to insert in box r, c
+	 * @throws IllegalArgumentException        
+	 *             if r or c is outside [0..getDimension()-1] or
+	 *             number is outside [1..9] 
+	 */
 	@Override
 	public void setNumber(int r, int c, int nbr) {
-		// TODO Auto-generated method stub
-
+		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
+			board[r][c] = nbr;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
-
+	
+	private boolean checkDimension(int r, int c) {
+		return (r >= 0 && r <= getDimension() && c >= 0 && c <= getDimension());	
+	}
+	
+	/**
+	 * Returns the number in box r,c. If the box i empty 0 is returned.
+	 * 
+	 * @param r
+	 *            The row
+	 * @param c
+	 *            The column
+	 * @param number
+	 *            The number to insert in r, c
+	 * @return the number in box r,c or 0 if the box is empty.
+	 * @throws IllegalArgumentException
+	 *             if r or c is outside [0..getDimension()-1]
+	 */
 	@Override
 	public int getNumber(int r, int c) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(checkDimension(r,c)) {
+			if(board[r][c] == 0) {
+				return 0;
+			} else {
+				return board[r][c];
+			}
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 
+	
+	
+	
+	
 	@Override
 	public void clearNumber(int r, int c) {
-		// TODO Auto-generated method stub
-
+		if(checkDimension(r,c)) {
+			board[r][c] = 0;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
-
+	
+	
+	// Kontrollerar om värdet nbr i rutan r,c är ok enligt reglerna.
+	// IllegalArgumentException om fel värde på r, c eller nbr
 	@Override
 	public boolean isValid(int r, int c, int nbr) {
-		// TODO Auto-generated method stub
-		return false;
+		return (checkRowsCols(r,c,nbr, 0) && checkQuadrant(r, c, nbr, 0));
 	}
+	
+	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
+		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
+			int ff = 0;
+			
+			for(int i = 0; i < getDimension(); i++) {
+				if((board[i][c] == nbr || board[r][i] == nbr)) {
+					ff++;
+				}
+			}
+				return (ff == unique);
+			} else {	
+			throw new IllegalArgumentException();
+			}
+	}
+	
+//	private boolean checkRow(int col, int nbr) {
+//		for(int i = 0; i < getDimension(); i++) {
+//			if(board[i][col] == nbr) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	private boolean checkCol(int row, int nbr) {
+//		for(int i = 0; i < getDimension(); i++) {
+//			if(board[row][i] == nbr) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+	
+	
 
 	@Override
 	public boolean isAllValid() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isValid = true;
+		for(int i = 0; i < getDimension(); i++) {
+			for(int y = 0; y < getDimension(); y++) {
+				isValid = checkRowsCols(i,y,board[i][y], 1);
+				isValid = checkQuadrant(i, y, board[i][y], 1);
+			}	
+		}
+		
+		
+		return isValid;
+	}
+	
+	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
+		int ncol = 3 * (c / 3);
+		int nrow = 3 * (r / 3);
+		int ff = 0;
+		
+		
+		for(int row = nrow; row < nrow+2; row++) {
+			for(int col = ncol; col < ncol+2; col++) {
+				if(board[row][col] == nbr) {
+					ff ++;
+				}
+			}
+		}
+		
+		return (ff == unique);
 	}
 
 	@Override
@@ -37,22 +158,51 @@ public class Sudoku implements SudokuSolver {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	private boolean solve(int r, int c) {
+		if(board[r][c] == 0) {
+			
+			
+			
+			
+		
+		}
+		
+		
+		return false;
+	}
+	
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		for(int i = 0; i < getDimension(); i++) {
+			for(int y = 0; y < getDimension(); y++) {
+		board[i][y] = 0;
+				
+			}
+		}
+		
+		
 
 	}
 
 	@Override
 	public int[][] getMatrix() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int[][] temp = new int[getDimension()][getDimension()];
+		for(int i = 0; i < getDimension(); i++) {
+			for(int y = 0; y < getDimension(); y++) {
+			temp[i][y] = board[i][y];
+				
+			}
+		}
+		
+		return temp;
 	}
 
 	@Override
 	public void setMatrix(int[][] nbrs) {
-		// TODO Auto-generated method stub
+		board = nbrs;
 
 	}
 
