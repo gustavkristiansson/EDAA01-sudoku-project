@@ -37,7 +37,7 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkDimension(int r, int c) {
-		return (r >= 0 && r <= getDimension() && c >= 0 && c <= getDimension());	
+		return (r >= 0 && r < getDimension() && c >= 0 && c < getDimension());	
 	}
 	
 	/**
@@ -155,21 +155,41 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		// TODO Auto-generated method stub
-		return false;
+		return solve(0,0);
 	}
 	
 	private boolean solve(int r, int c) {
-		if(board[r][c] == 0) {
-			
-			
-			
-			
-		
+		if(r == getDimension() -1 && c == getDimension() -1) {
+			solveSetNumber(r,c);	
+			return isAllValid();	
+		} else {
+			if(solveSetNumber(r,c)) {
+				if(c == 8) {
+					return solve(r + 1, 0);
+				} else {
+					return solve(r, c + 1);
+				}
+			} else if(c == 0){
+				return solve(r - 1, 8);
+			} else  {
+				return solve(r, c - 1);
+			}
 		}
-		
-		
-		return false;
+	}
+	
+	
+	private boolean solveSetNumber(int r, int c) {
+		if(board[r][c] == 0) {
+			for(int i = 1; i <= 9; i++) {
+				if(isValid(r,c,i)) {
+					setNumber(r,c,i);
+					return true;
+				} 
+			}
+			return false;
+		} else {
+			return false;
+		}
 	}
 	
 
