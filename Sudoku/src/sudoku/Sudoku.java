@@ -88,6 +88,11 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
+		//test
+		if(nbr == 0) {
+			return true;
+		}
+		
 		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
 			int ff = 0;
 			
@@ -137,6 +142,11 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
+		//test
+		if(nbr == 0) {
+			return true;
+		}
+		
 		int ncol = 3 * (c / 3);
 		int nrow = 3 * (r / 3);
 		int ff = 0;
