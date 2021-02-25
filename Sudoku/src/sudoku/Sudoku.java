@@ -84,6 +84,7 @@ public class Sudoku implements SudokuSolver {
 	// IllegalArgumentException om fel värde på r, c eller nbr
 	@Override
 	public boolean isValid(int r, int c, int nbr) {
+		
 		return (checkRowsCols(r,c,nbr, 0) && checkQuadrant(r, c, nbr, 0));
 	}
 	
