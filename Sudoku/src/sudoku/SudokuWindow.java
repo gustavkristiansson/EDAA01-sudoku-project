@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.PlainDocument;
 
 public class SudokuWindow {
 	JFrame frame;
@@ -52,6 +54,54 @@ public class SudokuWindow {
 		frame.setVisible(true);
 	}
 	
+
+	private class OneNumberField extends JTextField {
+		
+		
+		public OneNumberField() {
+			super("0");
+			setDocument(new OneNumberDocument());
+			
+		}
+		
+		
+		private class OneNumberDocument extends PlainDocument {
+			
+			
+			OneNumberDocument() {
+				super();
+				
+			}
+			
+			
+		}
+	}
+	
+	/** Här kan man plocka inspiration från, fanns tips på kurshemsidan*/
+	public class OneLetterTextField extends TextField {
+
+		@Override
+		public void replaceText(int start, int end, String text) {
+			if (matches(text)) {
+				super.replaceText(start, end, text);
+			}
+		}
+		
+		@Override
+		public void replaceSelection(String text) {
+			if (matches(text)) {
+				super.replaceSelection(text);
+			}
+		}
+
+		private boolean matches(String text) {
+			return text.isEmpty() || (getText().length() < 1) && text.matches("[A-Z]") ;
+		}
+
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		new SudokuWindow();
 	
@@ -87,7 +137,7 @@ public class SudokuWindow {
 //		System.out.println(sudoku.isAllValid());
 //		
 //		sudoku.printSudoku();
-		
+
 	}
 
 }
