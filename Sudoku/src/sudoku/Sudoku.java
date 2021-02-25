@@ -89,6 +89,11 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
+		//test
+		if(nbr == 0) {
+			return true;
+		}
+		
 		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
 			int ff = 0;
 			
@@ -138,6 +143,11 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
+		//test
+		if(nbr == 0) {
+			return true;
+		}
+		
 		int ncol = 3 * (c / 3);
 		int nrow = 3 * (r / 3);
 		int ff = 0;
@@ -156,7 +166,7 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		return solve(0,0);
+		return solveV2(0,0);
 	}
 	
 	private boolean solve(int r, int c) {
@@ -192,6 +202,52 @@ public class Sudoku implements SudokuSolver {
 			return false;
 		}
 	}
+	
+	
+	
+	//test ny solve
+	
+	
+	private boolean solveV2(int r, int c) {
+		if(r == getDimension() -1 && c == getDimension() -1) {
+			return true;
+		} 
+		if(solveSetNumberV2(r,c) && isAllValid()) {
+			if(c == 8) {
+				return solveV2(r + 1, 0);
+			} else {
+				return solveV2(r, c + 1);
+			}
+		} else {
+			if(c == 0) {
+				return solveV2(r - 1, 0);
+			} else {
+				return solveV2(r, c -1);
+			}
+		}
+		
+	}
+	
+	
+	
+	private boolean solveSetNumberV2(int r, int c) {
+//		if(isValid(r,c,board[r][c])) {
+//			return true;
+//		}
+		
+		for(int i = 1; i <= 9; i++) {
+			if(isValid(r,c,i)) {
+				setNumber(r,c,i);
+				return true;
+			} 
+		}
+		setNumber(r,c,0);
+		return false;
+	}
+	
+	
+	
+	
 	
 	public void printSudoku() {
 		System.out.println();
