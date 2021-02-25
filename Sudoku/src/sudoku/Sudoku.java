@@ -192,6 +192,16 @@ public class Sudoku implements SudokuSolver {
 		}
 	}
 	
+	public void printSudoku() {
+		System.out.println();
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; i < 9; i++) {
+				System.out.println(" | " + board[i][j] + " | ");
+			}
+		System.out.println();
+		}
+	}
+	
 
 	@Override
 	public void clear() {
