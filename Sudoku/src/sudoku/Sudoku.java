@@ -4,8 +4,8 @@ public class Sudoku implements SudokuSolver {
 	private int board [][];
 	
 	public Sudoku() {
-//	this.board = new int[c][r];
-//	System.out.print(board[1][1]);
+		setMatrix(new int[9][9]);
+		//board = new int[9][9]; 
 	}
 
 //	public static void main(String[] args) {
@@ -195,8 +195,8 @@ public class Sudoku implements SudokuSolver {
 	public void printSudoku() {
 		System.out.println();
 		for(int i = 0; i < 9; i++) {
-			for(int j = 0; i < 9; i++) {
-				System.out.println(" | " + board[i][j] + " | ");
+			for(int j = 0; j < 9; j++) {
+				System.out.print(" | " + board[i][j] + "| ");
 			}
 		System.out.println();
 		}
