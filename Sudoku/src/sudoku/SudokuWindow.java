@@ -33,6 +33,8 @@ public class SudokuWindow {
 		
 		System.out.println(sudoku.isAllValid());
 		
+		sudoku.solve();
+		
 		sudoku.printSudoku();
 		
 	}
