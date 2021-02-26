@@ -209,41 +209,32 @@ public class Sudoku implements SudokuSolver {
 	
 	
 	private boolean solveV2(int r, int c) {
-		if(r == getDimension() -1 && c == getDimension() -1) {
-			return true;
-		} 
-		if(solveSetNumberV2(r,c) && isAllValid()) {
-			if(c == 8) {
-				return solveV2(r + 1, 0);
+		if(c == getDimension() - 1) {
+			if(r < getDimension()) {
+				r++;
+				c = 0;			
 			} else {
-				return solveV2(r, c + 1);
-			}
-		} else {
-			if(c == 0) {
-				return solveV2(r - 1, 0);
-			} else {
-				return solveV2(r, c -1);
+				return true;
 			}
 		}
-		
-	}
-	
-	
-	
-	private boolean solveSetNumberV2(int r, int c) {
-//		if(isValid(r,c,board[r][c])) {
-//			return true;
-//		}
 		
 		for(int i = 1; i <= 9; i++) {
 			if(isValid(r,c,i)) {
 				setNumber(r,c,i);
-				return true;
-			} 
+				if(solve(r, c + 1)) {
+					return true;
+				}
+			}
+			
 		}
-		setNumber(r,c,0);
+		
 		return false;
+		
 	}
+	
+	
+	
+
 	
 	
 	
