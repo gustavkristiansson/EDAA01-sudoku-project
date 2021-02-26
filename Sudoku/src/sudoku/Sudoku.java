@@ -260,9 +260,10 @@ public class Sudoku implements SudokuSolver {
 		Sudoku s = new Sudoku();
 		
 		s.setNumber(3, 4, 2);
-
+		s.setNumber(3, 4, 2);
+		
 		s.printSudoku();
-		s.solve();
+		System.out.print(s.solve());
 		s.printSudoku();
 	}
 	
