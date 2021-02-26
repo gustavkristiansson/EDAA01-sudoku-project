@@ -125,8 +125,6 @@ public class Sudoku implements SudokuSolver {
 //		}
 //		return true;
 //	}
-	
-	
 
 	@Override
 	public boolean isAllValid() {
@@ -238,6 +236,64 @@ public class Sudoku implements SudokuSolver {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	public boolean solveV3(int r, int c) {
+//		if(board[r][c] == 0) {
+//			
+//			if(r == 8 && c == 8) { //sista rutan
+//				for(int i = 1; i <= 9; i++) { 
+//					board[r][c] = i;    //sätt in i
+//					if(checkQuadrant(r, c)) { //kolla om i är giltigt
+//						return true; // i så fall löst
+//					}
+//				}
+//				return false;
+//			}
+//			for(int i = 1; i <= 9; i++) {
+//				setNumber(r, c, i);
+//				if(checkQuadrant(r, c)) {
+//					if(c < 8) {
+//						if(solve(r, c + 1)) {
+//							return true;
+//						}
+//					}
+//					else if(solve(r + 1, 0)) {
+//							return true;
+//					}
+//				}
+//			}
+//			setNumber(r, c, 0);
+//			return false; //går tillbaka om ej fungerar
+//		
+//		} else {
+//			
+//			if(r == 8 && col == 8) {
+//				return checkQuadrant(r, c);
+//			}
+//			if(checkQuadrant(r, c)) {
+//				if(c < 8) {
+//					return solve(r, c + 1);
+//				} else {
+//					return solve(r + 1, 0);
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//	
 	
 	
 	public void printSudoku() {
