@@ -153,8 +153,8 @@ public class Sudoku implements SudokuSolver {
 		int ff = 0;
 		
 		
-		for(int row = nrow; row < nrow+2; row++) {
-			for(int col = ncol; col < ncol+2; col++) {
+		for(int row = nrow; row < nrow+3; row++) {
+			for(int col = ncol; col < ncol+3; col++) {
 				if(board[row][col] == nbr) {
 					ff ++;
 				}
@@ -166,51 +166,18 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		return solveV2(0,0);
+		return solve(0,0);
 	}
 	
-	private boolean solve(int r, int c) {
-		if(r == getDimension() -1 && c == getDimension() -1) {
-			solveSetNumber(r,c);	
-			return isAllValid();	
-		} else {
-			if(solveSetNumber(r,c)) {
-				if(c == 8) {
-					return solve(r + 1, 0);
-				} else {
-					return solve(r, c + 1);
-				}
-			} else if(c == 0){
-				return solve(r - 1, 8);
-			} else  {
-				return solve(r, c - 1);
-			}
-		}
-	}
-	
-	
-	private boolean solveSetNumber(int r, int c) {
-		if(board[r][c] == 0) {
-			for(int i = 1; i <= 9; i++) {
-				if(isValid(r,c,i)) {
-					setNumber(r,c,i);
-					return true;
-				} 
-			}
-			return false;
-		} else {
-			return false;
-		}
-	}
 	
 	
 	
 	//test ny solve
 	
 	
-	private boolean solveV2(int r, int c) {
-		if(c == getDimension() - 1) {
-			if(r < getDimension()) {
+	private boolean solve(int r, int c) {
+		if(c == getDimension()) {
+			if(r < getDimension() - 1) {
 				r++;
 				c = 0;			
 			} else {
@@ -219,13 +186,18 @@ public class Sudoku implements SudokuSolver {
 		}
 		
 		for(int i = 1; i <= 9; i++) {
-			if(isValid(r,c,i)) {
-				setNumber(r,c,i);
+			if(isValid(r,c,i) && isAllValid()) {
+				if(getNumber(r,c) == 0) {
+				setNumber(r,c,i);	
+				}
 				if(solve(r, c + 1)) {
 					return true;
+				} 
+				else {
+					board[r][c] = 0;
 				}
 			}
-			
+
 		}
 		
 		return false;
@@ -280,5 +252,22 @@ public class Sudoku implements SudokuSolver {
 		board = nbrs;
 
 	}
+	
+	
+	//test med main
+	
+	public static void main(String[] args) {
+		Sudoku s = new Sudoku();
+		
+		s.setNumber(3, 4, 2);
 
+		s.printSudoku();
+		s.solve();
+		s.printSudoku();
+	}
+	
+	
+	
+	
+	
 }
