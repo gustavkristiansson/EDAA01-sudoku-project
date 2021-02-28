@@ -108,23 +108,7 @@ public class Sudoku implements SudokuSolver {
 			}
 	}
 	
-//	private boolean checkRow(int col, int nbr) {
-//		for(int i = 0; i < getDimension(); i++) {
-//			if(board[i][col] == nbr) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-//	
-//	private boolean checkCol(int row, int nbr) {
-//		for(int i = 0; i < getDimension(); i++) {
-//			if(board[row][i] == nbr) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+
 
 	@Override
 	public boolean isAllValid() {
@@ -148,18 +132,16 @@ public class Sudoku implements SudokuSolver {
 		
 		int ncol = 3 * (c / 3);
 		int nrow = 3 * (r / 3);
-		int ff = 0;
-		
+		//int ff = 0;
 		
 		for(int row = nrow; row < nrow+3; row++) {
 			for(int col = ncol; col < ncol+3; col++) {
 				if(board[row][col] == nbr) {
-					ff ++;
+					return false;
 				}
 			}
 		}
-		
-		return (ff == unique);
+		return true;
 	}
 
 	@Override
@@ -204,68 +186,119 @@ public class Sudoku implements SudokuSolver {
 	
 	
 	
+	
+	
 
 	
 	
 	
+	public boolean solveV3(int r, int c) {
+		if(board[r][c] == 0) {
+			
+			if(r == 8 && c == 8) { //sista rutan
+				for(int i = 1; i <= 9; i++) { 
+					board[r][c] = i;    //sätt in i
+					if(checkSquare(r, c)) { //kolla om i är giltigt
+						return true; // i så fall löst
+					}
+				}
+				return false;
+			}
+			for(int i = 1; i <= 9; i++) {
+				setNumber(r, c, i);
+				if(checkSquare(r, c)) {
+					if(c < 8) {
+						if(solve(r, c + 1)) {
+							return true;
+						}
+					}
+					else if(solve(r + 1, 0)) {
+							return true;
+					}
+				}
+			}
+			setNumber(r, c, 0);
+			return false; //går tillbaka om ej fungerar
+		
+		} else {
+			
+			if(r == 8 && c == 8) {
+				return checkSquare(r, c);
+			}
+			if(checkSquare(r, c)) {
+				if(c < 8) {
+					return solve(r, c + 1);
+				} else {
+					return solve(r + 1, 0);
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean isValidV2(int r, int c, int nbr) {
+		//test
+		if(nbr == 0) {
+			return true;
+		}
+		
+		int ncol = 3 * (c / 3);
+		int nrow = 3 * (r / 3);
+		
+		for(int row = nrow; row < nrow+3; row++) {
+			for(int col = ncol; col < ncol+3; col++) {
+				if(board[row][col] == nbr) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean checkRow(int col, int nbr) {
+		for(int i = 0; i < getDimension(); i++) {
+			if(board[i][col] == nbr) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkCol(int row, int nbr) {
+		for(int i = 0; i < getDimension(); i++) {
+			if(board[row][i] == nbr) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean isAllValidV2() {
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 3; j++) {
+				return(checkSquare(i, j));
+			}
+		}
+	}
+	
+	private boolean checkSquare(int r, int c) {
+		int checkNbr = getNumber(r, c);
+		board[r][c] = 0;
+		
+		if(checkRow(r, checkNbr) && checkCol(c, checkNbr) && isValidV2(r, c, checkNbr)) {
+			board[r][c] = checkNbr;
+			return true;
+		} else {
+			board[r][c] = checkNbr;
+			return false;
+		}
+	}
 	
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-//	public boolean solveV3(int r, int c) {
-//		if(board[r][c] == 0) {
-//			
-//			if(r == 8 && c == 8) { //sista rutan
-//				for(int i = 1; i <= 9; i++) { 
-//					board[r][c] = i;    //sätt in i
-//					if(checkQuadrant(r, c)) { //kolla om i är giltigt
-//						return true; // i så fall löst
-//					}
-//				}
-//				return false;
-//			}
-//			for(int i = 1; i <= 9; i++) {
-//				setNumber(r, c, i);
-//				if(checkQuadrant(r, c)) {
-//					if(c < 8) {
-//						if(solve(r, c + 1)) {
-//							return true;
-//						}
-//					}
-//					else if(solve(r + 1, 0)) {
-//							return true;
-//					}
-//				}
-//			}
-//			setNumber(r, c, 0);
-//			return false; //går tillbaka om ej fungerar
-//		
-//		} else {
-//			
-//			if(r == 8 && col == 8) {
-//				return checkQuadrant(r, c);
-//			}
-//			if(checkQuadrant(r, c)) {
-//				if(c < 8) {
-//					return solve(r, c + 1);
-//				} else {
-//					return solve(r + 1, 0);
-//				}
-//			}
-//		}
-//		return false;
-//	}
-//	
 	
 	
 	public void printSudoku() {
@@ -282,9 +315,8 @@ public class Sudoku implements SudokuSolver {
 	@Override
 	public void clear() {
 		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-		board[i][y] = 0;
-				
+			for(int j = 0; j < getDimension(); j++) {
+				board[i][j] = 0;
 			}
 		}
 	}
@@ -294,12 +326,11 @@ public class Sudoku implements SudokuSolver {
 		
 		int[][] temp = new int[getDimension()][getDimension()];
 		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-			temp[i][y] = board[i][y];
+			for(int j = 0; j < getDimension(); j++) {
+				temp[i][j] = board[i][j];
 				
 			}
 		}
-		
 		return temp;
 	}
 
@@ -315,15 +346,20 @@ public class Sudoku implements SudokuSolver {
 	public static void main(String[] args) {
 		Sudoku s = new Sudoku();
 		
-		s.setNumber(3, 4, 2);
+//		s.setNumber(3, 4, 2);
+//		s.setNumber(3, 5, 2);
+//		s.setNumber(8, 8, 2);
+//		s.setNumber(8, 7, 2);
+		
+		System.out.println(s.isValid(3,5,3));
+		System.out.println(s.isAllValid());
+		
+		s.solveV3(0, 0);
+		
+		
 
 		s.printSudoku();
-		s.solve();
-		s.printSudoku();
+		//s.solve();
+		//s.printSudoku();
 	}
-	
-	
-	
-	
-	
 }
