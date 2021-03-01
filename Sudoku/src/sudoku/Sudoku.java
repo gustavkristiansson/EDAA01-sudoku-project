@@ -102,6 +102,8 @@ public class Sudoku implements SudokuSolver {
 					ff++;
 				}
 			}
+			System.out.println("number "   + nbr);
+			System.out.println("ff " + ff);
 				return (ff == unique);
 			} else {	
 			throw new IllegalArgumentException();
@@ -128,16 +130,20 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public boolean isAllValid() {
-		boolean isValid = true;
 		for(int i = 0; i < getDimension(); i++) {
 			for(int y = 0; y < getDimension(); y++) {
-				isValid = checkRowsCols(i,y,board[i][y], 1);
-				isValid = checkQuadrant(i, y, board[i][y], 1);
+				if(!(checkRowsCols(i,y,board[i][y], 1)) || !(checkQuadrant(i, y, board[i][y], 1))) {
+					
+					
+					
+					System.out.println(" test quad" + checkQuadrant(i, y, board[i][y], 1));
+					System.out.println(" test row" +checkRowsCols(i, y, board[i][y], 1));
+					System.out.println(" test " +board[i][y]);
+					return false;
+				}
 			}	
 		}
-		
-		
-		return isValid;
+		return true;
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
@@ -158,7 +164,6 @@ public class Sudoku implements SudokuSolver {
 				}
 			}
 		}
-		
 		return (ff == unique);
 	}
 
@@ -315,12 +320,15 @@ public class Sudoku implements SudokuSolver {
 	public static void main(String[] args) {
 		Sudoku s = new Sudoku();
 		
-		s.setNumber(3, 4, 2);
-		s.setNumber(3, 4, 2);
+		s.setNumber(8, 2, 2);
+		s.setNumber(2, 4, 3);
+		System.out.print(s.isAllValid());
+		s.printSudoku();
+		System.out.print(s.checkQuadrant(2, 4, 2, 1));
 		
-		s.printSudoku();
-		System.out.print(s.solve());
-		s.printSudoku();
+		System.out.print("row "  + s.checkRowsCols(8, 2, 2, 1));		
+//		System.out.print(s.solve());
+//		s.printSudoku();
 	}
 	
 	
