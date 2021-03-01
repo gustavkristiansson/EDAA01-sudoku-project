@@ -322,9 +322,4 @@ public class Sudoku implements SudokuSolver {
 		System.out.print(s.solve());
 		s.printSudoku();
 	}
-	
-	
-	
-	
-	
 }
