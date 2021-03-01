@@ -105,6 +105,8 @@ public class Sudoku implements SudokuSolver {
 			}
 			System.out.println("number "   + nbr);
 			System.out.println("ff " + ff);
+			System.out.print("unique" + unique);
+				ff = ff - ff/2;
 				return (ff == unique);
 			} else {	
 				throw new IllegalArgumentException();
@@ -139,7 +141,7 @@ public class Sudoku implements SudokuSolver {
 					
 					System.out.println(" test quad" + checkQuadrant(i, y, board[i][y], 1));
 					System.out.println(" test row" +checkRowsCols(i, y, board[i][y], 1));
-					System.out.println(" test " +board[i][y]);
+					System.out.println(" test value that is wrong" +board[i][y]);
 					return false;
 				}
 			}	
