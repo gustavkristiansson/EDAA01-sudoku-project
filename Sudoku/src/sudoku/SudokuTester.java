@@ -13,8 +13,7 @@ class SudokuTester {
 	@BeforeEach
 	void setUp() throws Exception {
 		board = new int[9][9];
-		mySudoku = new Sudoku();
-		
+		mySudoku = new Sudoku();	
 	}
 
 	@AfterEach
@@ -34,7 +33,7 @@ class SudokuTester {
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
-		//mySudoku = new Sudoku(board);
+		mySudoku = new Sudoku(board);
 		assertFalse(mySudoku.solve(), "Sudoku should not be solvable");
 		}
 	
@@ -49,7 +48,7 @@ class SudokuTester {
 								{ 4, 1, 0, 6, 0, 8, 0, 0, 0 },
 								{ 8, 6, 0, 0, 3, 0, 1, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 4, 0, 0 } };
-		//mySudoku = new Sudoku(board);
+		mySudoku = new Sudoku(board);
 		assertTrue(mySudoku.solve(), "Sudoku shuold be solvable");
 						
 	}
@@ -65,7 +64,7 @@ class SudokuTester {
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-		//mySudoko = new Sudoku(board);
+		mySudoku = new Sudoku(board);
 		assertTrue(mySudoku.solve(), "Sudoku should be solvable");
 	}
 }

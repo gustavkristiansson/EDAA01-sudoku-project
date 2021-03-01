@@ -7,6 +7,10 @@ public class Sudoku implements SudokuSolver {
 		setMatrix(new int[9][9]);
 		//board = new int[9][9]; 
 	}
+	
+	public Sudoku(int[][] board) {
+		this.board = board;
+	}
 
 //	public static void main(String[] args) {
 //		Sudoku s = new Sudoku(2,2);
