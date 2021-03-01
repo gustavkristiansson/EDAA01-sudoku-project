@@ -66,15 +66,7 @@ public class Sudoku implements SudokuSolver {
 		}
 	}
 	
-	/**
-	 * Clears number at position r, c.
-	 * @param r
-	 * 				The row
-	 * @param c
-	 * 				The column
-	 * @throws IllegalArgumentException
-	 * 				if r or c is outside [0...getDimension()-1]
-	 */
+	
 	@Override
 	public void clearNumber(int r, int c) {
 		if(!checkDimension(r, c)) {
@@ -109,7 +101,7 @@ public class Sudoku implements SudokuSolver {
 			}
 				return (ff == unique);
 			} else {	
-			throw new IllegalArgumentException();
+				throw new IllegalArgumentException();
 			}
 	}
 	
