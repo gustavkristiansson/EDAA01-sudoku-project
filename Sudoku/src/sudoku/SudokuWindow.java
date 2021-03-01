@@ -1,14 +1,20 @@
 package sudoku;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -19,26 +25,44 @@ public class SudokuWindow {
 	JPanel buttonPanel;
 	JPanel boardPanel;
 	JLabel message;
-	
-	
-	
+	OneLetterField[][] field;
+	Sudoku sudoku;
 	
 	public SudokuWindow() {
+		SwingUtilities.invokeLater(() -> createWindow("Sudoku", 400, 500));
+	}
+	
+	private void createWindow(String title, int width, int height) {
 		
 		/** Instansierar samtliga element*/
-		frame = new JFrame("Sudoku");
+		frame = new JFrame(title);
 		buttonPanel = new JPanel();
 		boardPanel = new JPanel();
-		solveButton = new JButton("Solve");
-		clearButton = new JButton("Clear");
+		solveButton = new SolveButton("Solve");
+		clearButton = new ClearButton("Clear");
 		message = new JLabel("Message prompt");
-		Sudoku sudoku = new Sudoku();
+		sudoku = new Sudoku();
+		field = new OneLetterField[9][9];
+		
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; j < 9; j++) {
+				field[i][j] = new OneLetterField();
+				
+				if(i < 3 && (j < 3 || j >= 6) ||
+							i >= 3 && i < 6 && j >= 3 && j < 6 ||
+							i >= 6 && (j < 3 || j >= 6)) {
+					field[i][j].setBackground(new Color(255, 69, 0));
+				}
+				field[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+				boardPanel.add(field[i][j]);
+			}
+		}
 		
 		
 		/** Sätter gränser för fönster*/
-		frame.setSize(new Dimension(250, 300));
+		frame.setSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		
 		buttonPanel.add(solveButton);
 		buttonPanel.add(clearButton);
@@ -46,21 +70,16 @@ public class SudokuWindow {
 		
 		boardPanel.setLayout(new GridLayout(9,9));
 		
-		
-		
-		
-		frame.add(buttonPanel);
-		frame.add(boardPanel);
-		
-		
-		
+		frame.add(buttonPanel, BorderLayout.SOUTH);
+		frame.add(boardPanel, BorderLayout.CENTER);
+
 		frame.setVisible(true);
 	}
 	
 
-	private class OneNumberField extends JTextField {
+	private class OneLetterField extends JTextField {
 		
-		public OneNumberField() {
+		public OneLetterField() {
 			super("0");
 			setDocument(new OneNumberDocument());
 		}
@@ -115,8 +134,62 @@ public class SudokuWindow {
 //
 //	}
 	
+	private class SolveButton extends JButton implements ActionListener {
+		
+		SolveButton(String name) {
+			super(name);
+			
+			addActionListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i < 9; i++) {
+				for(int j = 0; j < 9; j++) {
+					try {
+						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
+					} catch(NumberFormatException x) {
+						sudoku.setNumber(i, j, 0);
+						message.setText("Sudokut ej lösbart");
+					}
+				}
+			}
+			
+			if(sudoku.solve()) {
+				for(int i = 0; i < 9; i++) {
+					for(int j = 0; j < 9; j++) {
+						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
+					}
+				}
+				message.setText("Sudokut löst!");
+			}
+			else {
+				System.out.println("Sudokut ej lösbart");
+				message.setText("Sudokut ej lösbart");
+			}
+		}	
+	}
 	
-	
+	private class ClearButton extends JButton implements ActionListener {
+
+		ClearButton(String name) {
+			super(name);
+			
+			addActionListener(this);
+		}
+		
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i < 9; i++) {
+				for(int j = 0; j < 9; j++) {
+					sudoku.setNumber(i, j, 0);
+					field[i][j].setText("0");
+				}
+			}
+		}
+	}
+		
 	public static void main(String[] args) {
 		new SudokuWindow();
 	

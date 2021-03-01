@@ -7,6 +7,10 @@ public class Sudoku implements SudokuSolver {
 		setMatrix(new int[9][9]);
 		//board = new int[9][9]; 
 	}
+	
+	public Sudoku(int[][] board) {
+		this.board = board;
+	}
 
 //	public static void main(String[] args) {
 //		Sudoku s = new Sudoku(2,2);
@@ -29,10 +33,10 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public void setNumber(int r, int c, int nbr) {
-		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
-			board[r][c] = nbr;
-		} else {
+		if((!checkDimension(r, c)) || (nbr < 0 || nbr > getDimension())) {
 			throw new IllegalArgumentException();
+		} else {
+			board[r][c] = nbr;
 		}
 	}
 	
@@ -55,27 +59,24 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public int getNumber(int r, int c) {
-		if(checkDimension(r,c)) {
+		if(!checkDimension(r, c)) {
+			throw new IllegalArgumentException();
+		} else {
 			if(board[r][c] == 0) {
 				return 0;
 			} else {
 				return board[r][c];
 			}
-		} else {
-			throw new IllegalArgumentException();
 		}
 	}
-
-	
-	
 	
 	
 	@Override
 	public void clearNumber(int r, int c) {
-		if(checkDimension(r,c)) {
-			board[r][c] = 0;
-		} else {
+		if(!checkDimension(r, c)) {
 			throw new IllegalArgumentException();
+		} else {
+			board[r][c] = 0;
 		}
 	}
 	
@@ -106,7 +107,7 @@ public class Sudoku implements SudokuSolver {
 			System.out.println("ff " + ff);
 				return (ff == unique);
 			} else {	
-			throw new IllegalArgumentException();
+				throw new IllegalArgumentException();
 			}
 	}
 	
@@ -191,7 +192,7 @@ public class Sudoku implements SudokuSolver {
 		for(int i = 1; i <= 9; i++) {
 			if(isValid(r,c,i) && isAllValid()) {
 				if(getNumber(r,c) == 0) {
-				setNumber(r,c,i);	
+					setNumber(r,c,i);	
 				}
 				if(solve(r, c + 1)) {
 					return true;
@@ -288,7 +289,7 @@ public class Sudoku implements SudokuSolver {
 	public void clear() {
 		for(int i = 0; i < getDimension(); i++) {
 			for(int y = 0; y < getDimension(); y++) {
-		board[i][y] = 0;
+				board[i][y] = 0;
 				
 			}
 		}
@@ -296,22 +297,18 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public int[][] getMatrix() {
-		
 		int[][] temp = new int[getDimension()][getDimension()];
 		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-			temp[i][y] = board[i][y];
-				
+			for(int j = 0; j < getDimension(); j++) {
+				temp[i][j] = board[i][j];	
 			}
 		}
-		
 		return temp;
 	}
 
 	@Override
 	public void setMatrix(int[][] nbrs) {
 		board = nbrs;
-
 	}
 	
 	
@@ -330,9 +327,4 @@ public class Sudoku implements SudokuSolver {
 //		System.out.print(s.solve());
 //		s.printSudoku();
 	}
-	
-	
-	
-	
-	
 }
