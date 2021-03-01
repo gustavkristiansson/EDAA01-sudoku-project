@@ -29,10 +29,10 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public void setNumber(int r, int c, int nbr) {
-		if(checkDimension(r,c) && nbr >= 0 && nbr <= 9) {
-			board[r][c] = nbr;
-		} else {
+		if((!checkDimension(r, c)) || (nbr < 0 || nbr > getDimension())) {
 			throw new IllegalArgumentException();
+		} else {
+			board[r][c] = nbr;
 		}
 	}
 	
@@ -55,27 +55,32 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public int getNumber(int r, int c) {
-		if(checkDimension(r,c)) {
+		if(!checkDimension(r, c)) {
+			throw new IllegalArgumentException();
+		} else {
 			if(board[r][c] == 0) {
 				return 0;
 			} else {
 				return board[r][c];
 			}
-		} else {
-			throw new IllegalArgumentException();
 		}
 	}
-
 	
-	
-	
-	
+	/**
+	 * Clears number at position r, c.
+	 * @param r
+	 * 				The row
+	 * @param c
+	 * 				The column
+	 * @throws IllegalArgumentException
+	 * 				if r or c is outside [0...getDimension()-1]
+	 */
 	@Override
 	public void clearNumber(int r, int c) {
-		if(checkDimension(r,c)) {
-			board[r][c] = 0;
-		} else {
+		if(!checkDimension(r, c)) {
 			throw new IllegalArgumentException();
+		} else {
+			board[r][c] = 0;
 		}
 	}
 	
@@ -186,7 +191,7 @@ public class Sudoku implements SudokuSolver {
 		for(int i = 1; i <= 9; i++) {
 			if(isValid(r,c,i) && isAllValid()) {
 				if(getNumber(r,c) == 0) {
-				setNumber(r,c,i);	
+					setNumber(r,c,i);	
 				}
 				if(solve(r, c + 1)) {
 					return true;
@@ -283,7 +288,7 @@ public class Sudoku implements SudokuSolver {
 	public void clear() {
 		for(int i = 0; i < getDimension(); i++) {
 			for(int y = 0; y < getDimension(); y++) {
-		board[i][y] = 0;
+				board[i][y] = 0;
 				
 			}
 		}
@@ -291,22 +296,18 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public int[][] getMatrix() {
-		
 		int[][] temp = new int[getDimension()][getDimension()];
 		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-			temp[i][y] = board[i][y];
-				
+			for(int j = 0; j < getDimension(); j++) {
+				temp[i][j] = board[i][j];	
 			}
 		}
-		
 		return temp;
 	}
 
 	@Override
 	public void setMatrix(int[][] nbrs) {
 		board = nbrs;
-
 	}
 	
 	
