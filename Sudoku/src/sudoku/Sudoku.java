@@ -29,7 +29,7 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public void setNumber(int r, int c, int nbr) {
-		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
+		if(checkDimension(r,c) && nbr >= 0 && nbr <= 9) {
 			board[r][c] = nbr;
 		} else {
 			throw new IllegalArgumentException();
