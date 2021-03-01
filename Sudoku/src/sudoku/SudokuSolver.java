@@ -31,8 +31,15 @@ public interface SudokuSolver {
 	 */
 	public int getNumber(int r, int c);
 	
-	// Tömmer rutan r,c.
-	// IllegalArgumentException om fel värde på r eller c
+	/**
+	 * Clears number at position r, c.
+	 * @param r
+	 * 				The row
+	 * @param c
+	 * 				The column
+	 * @throws IllegalArgumentException
+	 * 				if r or c is outside [0...getDimension()-1]
+	 */
 	public void clearNumber(int r, int c);
 	
 	// Kontrollerar om värdet nbr i rutan r,c är ok enligt reglerna.
