@@ -62,7 +62,7 @@ public class SudokuWindow {
 		/** Sätter gränser för fönster*/
 		frame.setSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		
 		buttonPanel.add(solveButton);
 		buttonPanel.add(clearButton);
@@ -71,7 +71,7 @@ public class SudokuWindow {
 		boardPanel.setLayout(new GridLayout(9,9));
 		
 		frame.add(buttonPanel, BorderLayout.SOUTH);
-		frame.add(boardPanel);
+		frame.add(boardPanel, BorderLayout.CENTER);
 
 		frame.setVisible(true);
 	}
@@ -149,7 +149,8 @@ public class SudokuWindow {
 					try {
 						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
 					} catch(NumberFormatException x) {
-						sudoku.setNumber(i, j, 0);	
+						sudoku.setNumber(i, j, 0);
+						message.setText("Sudokut ej lösbart");
 					}
 				}
 			}
@@ -160,9 +161,11 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
+				message.setText("Sudokut löst!");
 			}
 			else {
 				System.out.println("Sudokut ej lösbart");
+				message.setText("Sudokut ej lösbart");
 			}
 		}	
 	}
