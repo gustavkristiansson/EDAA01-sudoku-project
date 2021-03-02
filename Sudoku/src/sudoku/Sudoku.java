@@ -137,7 +137,7 @@ public class Sudoku implements SudokuSolver {
 	public boolean isAllValid() {
 		for(int i = 0; i < getDimension(); i++) {
 			for(int y = 0; y < getDimension(); y++) {
-				if(!(checkRowsCols(i,y,board[i][y], 1)) || !(checkQuadrant(i, y, board[i][y], 1))) {
+				if(!(checkRowsCols(i,y,board[i][y], 0)) || !(checkQuadrant(i, y, board[i][y], 0))) {
 	
 					return false;
 				}
@@ -172,6 +172,9 @@ public class Sudoku implements SudokuSolver {
 	public boolean solve() {
 		return solveV2(0,0);
 	}
+
+	
+	
 	
 	private int[][] toArray(){
 		int temp [][] = new int[getDimension()][getDimension()];
@@ -202,34 +205,50 @@ public class Sudoku implements SudokuSolver {
 	
 	
 	private boolean solveV2(int r, int c) {
-		if(getNumber(r,c) != 0) {
-			c++;
-			if(c == getDimension()) {
-				if(r < getDimension() - 1) {
-					r++;
-					c = 0;			
-				} else {
-					return true;
+		if(getNumber(r, c) == 0) {
+			if(r == 8 && c == 8) {
+				for(int i = 1; i <= 9; i++) {
+					setNumber(r, c, i);
+					if(isValid(r, c, i) && isAllValid()) {
+						return true;
+					}
+				 
 				}
-			}	
-		}
-			
-		for(int number = 1; number <= 9; number++) {
-			if(isValid(r,c,number)) {
-				setNumber(r,c,number);
-				
-				if(solve(r,c+1)) {
-					return true;
-				} else {
-					clearNumber(r,c);
-				}
+				return false;
 			}
 			
+			for(int i = 1; i <= 9; i++) {
+				setNumber(r, c, i);
+				if(isAllValid()) {
+					if(solve(r, c + 1)) {
+						return true;
+					} else if(solve(r + 1, 0)) {
+						return true;
+					} else {
+						//clearNumber(r, c);
+						return false;
+					}
+				}
+			}	
+		} else {
+				if(isAllValid()) {
+					if(c < 8) {
+						if(solve(r, 0)) {
+							return true;
+						}
+						
+						if(solve(r, c + 1)) {
+							return true;
+						}
+					}
+				}
+					
+				 
+			}
+		 return false;
 		}
-		
-		
-		return false;
-}
+			
+
 	
 	
 	
@@ -238,8 +257,6 @@ public class Sudoku implements SudokuSolver {
 	
 
 	private boolean solve(int r, int c) {
-		int temp [][] = toArray();
-		
 		if(c == getDimension()) {
 			if(r < getDimension() - 1) {
 				r++;
@@ -260,11 +277,8 @@ public class Sudoku implements SudokuSolver {
 					clearNumber(r,c);
 				}
 			}
-		
 		}
-		
 		return false;
-		
 	}
 
 	
