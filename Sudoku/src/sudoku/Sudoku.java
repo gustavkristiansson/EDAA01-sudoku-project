@@ -129,10 +129,12 @@ public class Sudoku implements SudokuSolver {
 		for(int row = nrow; row < nrow+3; row++) {
 			for(int col = ncol; col < ncol+3; col++) {
 				if(board[row][col] == nbr) {
+					//return false;
 					ff ++;
 				}
 			}
 		}
+		//return true;
 		return (ff == unique);
 	}
 
@@ -207,6 +209,17 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public void setMatrix(int[][] nbrs) {
+		boolean inValid = false;
+		for(int i = 0; i < nbrs.length; i++) {
+			for(int j = 0; j < nbrs.length; j++) {
+				if(nbrs[i][j] > getDimension() || nbrs[i][j] < 0) {
+					inValid = true;
+				}
+			}
+		}
+		if(nbrs.length > board.length || inValid) {
+			throw new IllegalArgumentException();
+		}
 		board = nbrs;
 	}
 	
