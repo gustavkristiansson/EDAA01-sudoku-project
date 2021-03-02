@@ -171,13 +171,12 @@ public class SudokuWindow {
 	}
 	
 	private class ClearButton extends JButton implements ActionListener {
-
+		
 		ClearButton(String name) {
 			super(name);
 			
 			addActionListener(this);
 		}
-		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
