@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.Arrays;
+
 public class Sudoku implements SudokuSolver {
 	private int board [][];
 	
@@ -138,11 +140,76 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public boolean solve() {
-		return solve(0,0);
+		return solveV2(0,0);
 	}
+	
+	private int[][] toArray(){
+		int temp [][] = new int[getDimension()][getDimension()];
+		
+		for(int i = 0; i < getDimension(); i++) {
+			for(int y = 0; y < getDimension(); y++) {
+			temp[i][y] = board[i][y];
+			}
+		}
+		return temp;
+		
+	}
+	
+	
+	private boolean contains(int value) {
+		boolean found = false;
+		for(int i = 0; i < getDimension(); i++) {
+			for(int y = 0; y < getDimension(); y++) {
+			if(board[i][y] == value) {
+				found = true;
+			}
+			}
+		}
+		
+		return found;
+
+	}	
+	
+	
+	private boolean solveV2(int r, int c) {
+		if(getNumber(r,c) != 0) {
+			c++;
+			if(c == getDimension()) {
+				if(r < getDimension() - 1) {
+					r++;
+					c = 0;			
+				} else {
+					return true;
+				}
+			}	
+		}
+			
+		for(int number = 1; number <= 9; number++) {
+			if(isValid(r,c,number)) {
+				setNumber(r,c,number);
+				
+				if(solve(r,c+1)) {
+					return true;
+				} else {
+					clearNumber(r,c);
+				}
+			}
+			
+		}
+		
+		
+		return false;
+}
+	
+	
+	
+	
+	
 	
 
 	private boolean solve(int r, int c) {
+		int temp [][] = toArray();
+		
 		if(c == getDimension()) {
 			if(r < getDimension() - 1) {
 				r++;
@@ -151,7 +218,7 @@ public class Sudoku implements SudokuSolver {
 				return true;
 			}
 		}
-		
+
 		for(int i = 1; i <= 9; i++) {
 			if(isValid(r,c,i) && isAllValid()) {
 				if(getNumber(r,c) == 0) {
@@ -159,12 +226,11 @@ public class Sudoku implements SudokuSolver {
 				} 
 				if(solve(r, c + 1)) {
 					return true;
-				} 
-				else {
-					board[r][c] = 0;
+				} else {
+					clearNumber(r,c);
 				}
 			}
-
+		
 		}
 		
 		return false;
