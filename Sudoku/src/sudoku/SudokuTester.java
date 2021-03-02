@@ -35,7 +35,7 @@ class SudokuTester {
 								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
 		mySudoku = new Sudoku(board);
 		assertFalse(mySudoku.solve(), "Sudoku should not be solvable");
-		}
+	}
 	
 	@Test
 	void testSolvableFromCourse() {
@@ -49,8 +49,7 @@ class SudokuTester {
 								{ 8, 6, 0, 0, 3, 0, 1, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 4, 0, 0 } };
 		mySudoku = new Sudoku(board);
-		assertTrue(mySudoku.solve(), "Sudoku shuold be solvable");
-						
+		assertTrue(mySudoku.solve(), "Sudoku shuold be solvable");				
 	}
 
 	@Test
