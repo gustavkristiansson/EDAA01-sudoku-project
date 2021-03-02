@@ -90,7 +90,6 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
-		//test
 		if(nbr == 0) {
 			return true;
 		}
@@ -125,7 +124,6 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
-		//test
 		if(nbr == 0) {
 			return true;
 		}
