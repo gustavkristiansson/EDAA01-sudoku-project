@@ -169,10 +169,6 @@ public class SudokuWindow {
 			//	JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
 			}
 			else {
-				System.out.println("Sudokut ej lösbart");
-				
-				
-				
 				JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 			}
 		}	

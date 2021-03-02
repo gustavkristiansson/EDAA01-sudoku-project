@@ -84,6 +84,34 @@ public class Sudoku implements SudokuSolver {
 		return (checkRowsCols(r,c,nbr, 0) && checkQuadrant(r, c, nbr, 0));
 	}
 	
+	
+	public boolean isValidV2(int r, int c, int nbr) {
+		for(int i = 0; i < getDimension(); i++) {
+			if(i != c) {
+				if(board[r][i] == board[r][c]) {
+					return false;
+				}
+			}
+			if(i != r) {
+				if(board[i][c] == board[r][c]) {
+					return false;
+				}
+			}
+		}
+		
+		int ncol = 3 * (c / 3);
+		int nrow = 3 * (r / 3);
+		
+		for(int row = nrow; row < nrow+2; row++) {
+			for(int col = ncol; col < ncol+2; col++) {
+				if (board[row][col] == board[r][c] && row != r && col != c) {
+					return false;
+				}
+			}
+		}
+		return true;	
+	}
+	
 	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
 		if(nbr == 0) {
 			return true;
@@ -131,10 +159,12 @@ public class Sudoku implements SudokuSolver {
 		for(int row = nrow; row < nrow+3; row++) {
 			for(int col = ncol; col < ncol+3; col++) {
 				if(board[row][col] == nbr) {
+					//return false;
 					ff ++;
 				}
 			}
 		}
+		//return true;
 		return (ff == unique);
 	}
 
@@ -273,8 +303,12 @@ public class Sudoku implements SudokuSolver {
 
 	@Override
 	public void setMatrix(int[][] nbrs) {
+		if(nbrs.length != getDimension() || nbrs[0].length != getDimension()) {
+			throw new IllegalArgumentException();
+		}
 		board = nbrs;
 	}
+	
 	
 	
 	//test med main
@@ -292,53 +326,118 @@ public class Sudoku implements SudokuSolver {
 //		System.out.print(s.solve());
 //		s.printSudoku();
 	}
-}
-
-
-
-
-//public boolean solveV3(int r, int c) {
-//	if(board[r][c] == 0) {
-//		
-//		if(r == 8 && c == 8) { //sista rutan
-//			for(int i = 1; i <= 9; i++) { 
-//				board[r][c] = i;    //sätt in i
-//				if(checkQuadrant(r, c)) { //kolla om i är giltigt
-//					return true; // i så fall löst
-//				}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	private boolean checkRow(int r, int nbr) {
+//		for(int i = 0; i < getDimension(); i++) {
+//			if(board[r][i] == nbr) {
+//				return false;
 //			}
+//		}
+//		return true;
+//	}
+//	
+//	private boolean checkCol(int c, int nbr) {
+//		for(int i = 0; i < getDimension(); i++) {
+//			if(board[i][c] == nbr) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	private boolean checkPanel(int row, int col, int number) {
+//		int panelStartRow = (row / 3) * 3;
+//		int panelStartCol = (col / 3) * 3;
+//
+//		for (int i = panelStartRow; i < panelStartRow + 3; i++) {
+//			for (int j = panelStartCol; j < panelStartCol + 3; j++)
+//				if (board[i][j] == number) {
+//					return false;
+//				}
+//		}
+//		return true;
+//	}
+//
+//	
+//	private boolean checkQuadrant(int r, int c) {
+//		int nbrCheck = board[r][c];
+//		board[r][c] = 0;
+//		
+//		if(checkRow(r, nbrCheck) && checkCol(c, nbrCheck)
+//				&& checkPanel(r, c, nbrCheck)) {
+//			board[r][c] = nbrCheck;
+//			return true;
+//		} else {
+//			board[r][c] = 0;
 //			return false;
 //		}
-//		for(int i = 1; i <= 9; i++) {
-//			setNumber(r, c, i);
-//			if(checkQuadrant(r, c)) {
-//				if(c < 8) {
-//					if(solve(r, c + 1)) {
+//	}
+//
+//
+//
+//
+//
+//	private boolean solveV3(int row, int col) { // den rekursiva lösningen
+//
+//		if (board[row][col] == 0) {// ifall rutan är tom
+//
+//			if (row == 8 && col == 8) { // ifall vi är på sista rutan i sudokut
+//				for (int i = 1; i <= 9; i++) {
+//					board[row][col] = i; // prova att sätta in i
+//					if (checkQuadrant(row, col)) { // om i är giltigt så är
+//						return true; // sudokut är löst
+//					}
+//				}
+//				return false;
+//			}
+//			for (int i = 1; i < 10; i++) {
+//				board[row][col] = i; // testa med första bästa
+//				if (checkQuadrant(row, col)) { // funkar det man testat?
+//					if (col < 8) {
+//						if (solve(row, col + 1)) {// går nästa ruta att lösa?
+//							return true;
+//						}
+//					} else if (solve(row + 1, 0)) {// går nästa ruta att lösa?
 //						return true;
 //					}
 //				}
-//				else if(solve(r + 1, 0)) {
-//						return true;
+//
+//			}
+//			board[row][col] = 0; // sätt tillbaka rutan till tom
+//			return false; // ifall det inte funkar så får man hoppa tillbaka
+//
+//		} else { // annars är ju rutan inte tom
+//
+//			if (row == 8 && col == 8) {
+//				return checkQuadrant(row, col);
+//			}
+//			if (checkQuadrant(row, col)) { // då kollar vi om det funkar
+//				if (col < 8) {
+//					return solve(row, col + 1);
+//				} else {
+//					return solve(row + 1, 0);
 //				}
 //			}
 //		}
-//		setNumber(r, c, 0);
-//		return false; //går tillbaka om ej fungerar
-//	
-//	} else {
-//		
-//		if(r == 8 && col == 8) {
-//			return checkQuadrant(r, c);
-//		}
-//		if(checkQuadrant(r, c)) {
-//			if(c < 8) {
-//				return solve(r, c + 1);
-//			} else {
-//				return solve(r + 1, 0);
-//			}
-//		}
-//	}
-//	return false;
-//}
 //
+//		return false;
+//	}
+}
+	
+	
+
+
+
+
 
