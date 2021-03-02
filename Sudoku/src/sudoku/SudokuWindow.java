@@ -8,6 +8,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -136,6 +137,7 @@ public class SudokuWindow {
 //	}
 	
 	private class SolveButton extends JButton implements ActionListener {
+		ImageIcon icon = new ImageIcon(Sudoku.class.getResource("problemSolved.gif").getFile());
 		
 		SolveButton(String name) {
 			super(name);
@@ -151,7 +153,7 @@ public class SudokuWindow {
 						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
 					} catch(NumberFormatException x) {
 						sudoku.setNumber(i, j, 0);
-						JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
+						//JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 					}
 				}
 			}
@@ -162,10 +164,15 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
-				JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
+				JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
+				
+			//	JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
 			}
 			else {
 				System.out.println("Sudokut ej lösbart");
+				
+				
+				
 				JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 			}
 		}	
