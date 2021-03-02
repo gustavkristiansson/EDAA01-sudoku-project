@@ -103,9 +103,6 @@ public class Sudoku implements SudokuSolver {
 					ff++;
 				}
 			}
-			System.out.println("number "   + nbr);
-			System.out.println("ff " + ff);
-			System.out.print("unique" + unique);
 				ff = ff - ff/2;
 				return (ff == unique);
 			} else {	
@@ -116,7 +113,7 @@ public class Sudoku implements SudokuSolver {
 //	private boolean checkRow(int col, int nbr) {
 //		for(int i = 0; i < getDimension(); i++) {
 //			if(board[i][col] == nbr) {
-//				return false;
+//				return false; 
 //			}
 //		}
 //		return true;
@@ -136,12 +133,7 @@ public class Sudoku implements SudokuSolver {
 		for(int i = 0; i < getDimension(); i++) {
 			for(int y = 0; y < getDimension(); y++) {
 				if(!(checkRowsCols(i,y,board[i][y], 1)) || !(checkQuadrant(i, y, board[i][y], 1))) {
-					
-					
-					
-					System.out.println(" test quad" + checkQuadrant(i, y, board[i][y], 1));
-					System.out.println(" test row" +checkRowsCols(i, y, board[i][y], 1));
-					System.out.println(" test value that is wrong" +board[i][y]);
+	
 					return false;
 				}
 			}	
