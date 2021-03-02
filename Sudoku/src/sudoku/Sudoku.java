@@ -5,18 +5,11 @@ public class Sudoku implements SudokuSolver {
 	
 	public Sudoku() {
 		setMatrix(new int[9][9]);
-		//board = new int[9][9]; 
 	}
 	
 	public Sudoku(int[][] board) {
 		this.board = board;
 	}
-
-//	public static void main(String[] args) {
-//		Sudoku s = new Sudoku(2,2);
-//		
-//	}
-	
 	
 	/**
 	 * Sets the number nbr in box r, c.
@@ -148,12 +141,7 @@ public class Sudoku implements SudokuSolver {
 		return solve(0,0);
 	}
 	
-	
-	
-	
-	//test ny solve
-	
-	
+
 	private boolean solve(int r, int c) {
 		if(c == getDimension()) {
 			if(r < getDimension() - 1) {
