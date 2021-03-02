@@ -46,10 +46,16 @@ public interface SudokuSolver {
 	// IllegalArgumentException om fel värde på r, c eller nbr
 	public boolean isValid(int r, int c, int nbr);
 
-	// Kontrollerar att alla ifyllda siffrorna uppfyller reglerna.
+	/**
+	 * Checks that all filled in numbers are valid according to sudoku rules.
+	 * @return true if all numbers are valid, else false.
+	 */
 	public boolean isAllValid();
 		
-	// Försöker lösa sudokut och returnerar true om det var lösbart, annars false.
+	/**
+	 * Recursive algorithm that tries to solve sudoku.
+	 * @return true if sudoku was solvable else false.
+	 */
 	public boolean solve();
 		
 	// Tömmer alla rutorna i sudokut
