@@ -153,10 +153,9 @@ public class Sudoku implements SudokuSolver {
 		}
 		
 		for(int i = 1; i <= 9; i++) {
-			if(isValid(r,c,i) && isAllValid()) {
-				if(getNumber(r,c) == 0) {
+			if(isValid(r,c,i) && isAllValid() && getNumber(r,c) == 0) {
 					setNumber(r,c,i);	
-				}
+				
 				if(solve(r, c + 1)) {
 					return true;
 				} 
