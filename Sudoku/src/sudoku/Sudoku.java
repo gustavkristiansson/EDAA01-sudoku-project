@@ -103,7 +103,7 @@ public class Sudoku implements SudokuSolver {
 					ff++;
 				}
 			}
-				ff = ff/2;
+				ff = ff - ff/2;
 				return (ff == unique);
 			} else {	
 				throw new IllegalArgumentException();
