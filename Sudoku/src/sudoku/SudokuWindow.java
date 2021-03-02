@@ -151,7 +151,7 @@ public class SudokuWindow {
 						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
 					} catch(NumberFormatException x) {
 						sudoku.setNumber(i, j, 0);
-						message.setText("Sudokut ej lösbart");
+						JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 					}
 				}
 			}
@@ -162,7 +162,7 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
-				message.setText("Sudokut löst!");
+				JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
 			}
 			else {
 				System.out.println("Sudokut ej lösbart");
