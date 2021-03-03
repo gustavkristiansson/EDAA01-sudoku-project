@@ -191,8 +191,7 @@ public class Sudoku implements SudokuSolver {
 				}
 			}
 			return false;
-		}
-		else {
+		} else {
 			if(isValid(r, c, getNumber(r, c))) {
 				return solve(r, c + 1);
 			}
@@ -273,20 +272,5 @@ public class Sudoku implements SudokuSolver {
 			}
 			board = temp;
 		}
-	}
-	
-	public static void main(String[] args) {
-		Sudoku s = new Sudoku();
-		
-		System.out.println(s.isAllValid());
-		System.out.println("row "  + s.checkRowsCols(0, 0, 2));
-		
-		System.out.println(s.getNumber(0, 1));
-		
-		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
-		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
-		
-		System.out.println("row "  + s.checkRowsCols(8, 2, 2));		
-		System.out.println("solve = " + s.solve());
 	}
 }

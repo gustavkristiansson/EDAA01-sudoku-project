@@ -4,14 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -57,7 +55,6 @@ public class SudokuWindow {
 				boardPanel.add(field[i][j]);
 			}
 		}
-		
 		
 		/** Sätter gränser för fönster*/
 		frame.setSize(new Dimension(width, height));
@@ -110,29 +107,6 @@ public class SudokuWindow {
 			}	
 		}
 	}
-	
-	/** Här kan man plocka inspiration från, fanns tips på kurshemsidan*/
-//	public class OneLetterTextField extends TextField {
-//
-//		@Override
-//		public void replaceText(int start, int end, String text) {
-//			if (matches(text)) {
-//				super.replaceText(start, end, text);
-//			}
-//		}
-//		
-//		@Override
-//		public void replaceSelection(String text) {
-//			if (matches(text)) {
-//				super.replaceSelection(text);
-//			}
-//		}
-//
-//		private boolean matches(String text) {
-//			return text.isEmpty() || (getText().length() < 1) && text.matches("[A-Z]") ;
-//		}
-//
-//	}
 	
 	private class SolveButton extends JButton implements ActionListener {
 		
