@@ -13,6 +13,10 @@ public class Sudoku implements SudokuSolver {
 		this.board = board;
 	}
 	
+	public Sudoku(int dimension) {
+		this.board = new int[dimension][dimension];
+	}
+	
 	/**
 	 * Sets the number nbr in box r, c.
 	 * 
@@ -28,7 +32,7 @@ public class Sudoku implements SudokuSolver {
 	 */
 	@Override
 	public void setNumber(int r, int c, int nbr) {
-		if((!checkDimension(r, c)) || (nbr < 0 || nbr > getDimension())) {
+		if(!checkDimension(r, c) || nbr < 1 || nbr > getDimension()) {
 			throw new IllegalArgumentException();
 		} else {
 			board[r][c] = nbr;
@@ -36,7 +40,7 @@ public class Sudoku implements SudokuSolver {
 	} 
 	
 	private boolean checkDimension(int r, int c) {
-		return (r >= 0 && r < getDimension() && c >= 0 && c < getDimension());	
+		return ((r >= 0 && r < getDimension()) && (c >= 0 && c < getDimension()));	
 	}
 	
 	/**
@@ -57,15 +61,19 @@ public class Sudoku implements SudokuSolver {
 		if(!checkDimension(r, c)) {
 			throw new IllegalArgumentException();
 		} else {
-			if(board[r][c] == 0) {
-				return 0;
-			} else {
-				return board[r][c];
-			}
+			return board[r][c];
 		}
 	}
 	
-	
+	/**
+	 * Clears number at position r, c.
+	 * @param r
+	 * 				The row
+	 * @param c
+	 * 				The column
+	 * @throws IllegalArgumentException
+	 * 				if r or c is outside [0...getDimension()-1]
+	 */
 	@Override
 	public void clearNumber(int r, int c) {
 		if(!checkDimension(r, c)) {
@@ -75,197 +83,117 @@ public class Sudoku implements SudokuSolver {
 		}
 	}
 	
-	
-	// Kontrollerar om värdet nbr i rutan r,c är ok enligt reglerna.
-	// IllegalArgumentException om fel värde på r, c eller nbr
+	/**
+	 * Checks if number at position r, c is valid according to Sudoku rules.
+	 * 
+	 * @param r
+	 * 				The row
+	 * @param c
+	 * 				The column
+	 * @param nbr
+	 * 				The number to check
+	 * @return true if number is valid else false.
+	 * @throws IllegalArgumentException() 
+	 * 				if r or c is outside [0..getDimension()-1] or 
+	 * 				number is outside [1..9] 
+	 */
 	@Override
 	public boolean isValid(int r, int c, int nbr) {
-		
-		return (checkRowsCols(r,c,nbr, 0) && checkQuadrant(r, c, nbr, 0));
-	}
-	
-	
-	public boolean isAllValidV2() {
-		for(int i = 0; i < 9; i++) {
-			for(int j = 0; j < 9; j++) {
-				if(board[i][j] > 0 && !isValidV2(i, j, board[i][j]) || board[i][j] > 9) {
-					return false;
-				}
-			}	
-		}
-		return true;
-	}
-	
-	public boolean isValidV2(int r, int c, int nbr) {
-		for(int i = 0; i < 9; i++) {
-			int temp = board[r][i];
-			if(temp == nbr && i != c) {
-				return false;
-			}
-		}
-		for(int i = 0; i < 9; i++) {
-			int temp = board[i][c];
-			if(temp == nbr && i != r) {
-				return false;
-			}
-		}
-		
-		int irow = (r / 3) * 3;
-		int icol = (c / 3) * 3;
-		for(int x = irow; x < irow + 3; x++) {
-			for(int y = icol; y < icol + 3; y++) {
-				if(x != r && y != c && board[x][y] == nbr)
-					return false;
-			}
-		}
-		return true;
-	}
-	
-	private boolean solveNext(int r, int c) {
-		if(r == 8 && c == 8) {
-			return true;
-		}
-		if(c < 8) {
-			return solve(r, c + 1);
+		if(!checkDimension(r, c) || nbr < 1 || nbr > 9) {
+			throw new IllegalArgumentException();
 		} else {
-			return solve(r + 1, 0);
+			return (checkRowsCols(r, c, nbr, 0) && checkQuadrant(r, c, nbr, 0));
 		}
-	}
-	
-	private boolean solveV3(int r, int c) {
-		if(board[r][c] == 0) {
-			for(int i = 1; i <= 9; i++) {
-				if(isValidV2(r, c, i)) {
-					setNumber(r, c, i);
-					if(solveNext(r, c)) {
-						return true;
-					}
-				}
-			}
-			clearNumber(r, c);
-			return false;
-		} else if(isValidV2(r, c, board[r][c])) {
-			return solveNext(r, c);
-		}
-		return false;	
 	}
 	
 	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
-		if(nbr == 0) {
-			return true;
+//		if(nbr == 0) {
+//		return true;
+//	}
+	
+//		int ff = 0;
+		
+
+		
+		
+		for(int i = 0; i < getDimension(); i++) {
+			if(board[r][i] == nbr && i != c) {
+				return false;
+			}
 		}
 		
-		if(checkDimension(r,c) && nbr > 0 && nbr <= 9) {
-			int ff = 0;
-			
-			for(int i = 0; i < getDimension(); i++) {
-				if((board[i][c] == nbr || board[r][i] == nbr)) {
-					ff++;
-				}
+		for(int i = 0; i < getDimension(); i++) {
+			if(board[i][c] == nbr && i != r) {
+				return false;
 			}
-				ff = ff - ff/2;
-				return (ff == unique);
-			} else {	
-				throw new IllegalArgumentException();
-			}
+		}
+		
+//		for(int i = 0; i < getDimension(); i++) {
+//			if((board[i][c] == nbr && i != c)|| (board[r][i] == nbr && i != r)) {
+//				ff++;
+//				
+//				return false;
+//			}
+//		}
+		//ff = ff - ff/2;
+		//return (ff == unique);	
+		
+		return true;
 	}
+			
 	
-
+	
+	/**
+	 * Checks that all filled in numbers are valid according to sudoku rules.
+	 * @return true if all numbers are valid, else false.
+	 */
 	@Override
 	public boolean isAllValid() {
-		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-				if(!(checkRowsCols(i,y,board[i][y], 0)) || !(checkQuadrant(i, y, board[i][y], 0))) {
-	
-					return false;
+			for(int i = 0; i < getDimension(); i++) {
+				for(int j = 0; j < getDimension(); j++) {
+					if(board[i][j] != 0) {
+						if(!isValid(i, j, board[i][j])) {
+						//if(!checkRowsCols(i,j,board[i][j], 0) || !(checkQuadrant(i, j, board[i][j], 0))) {
+			
+						return false;
+						}
+					}	
 				}
-			}	
-		}
+				
+			}
+			//return isAllValid();
 		return true;
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
-		if(nbr == 0) {
-			return true;
-		}
+//		if(nbr == 0) {
+//			return true;
+//		}
 		
 		int ncol = 3 * (c / 3);
 		int nrow = 3 * (r / 3);
 		int ff = 0;
 		
 		
-		for(int row = nrow; row < nrow+3; row++) {
-			for(int col = ncol; col < ncol+3; col++) {
-				if(board[row][col] == nbr) {
-					//return false;
-					ff ++;
+		for(int row = nrow; row < nrow + 3; row++) {
+			for(int col = ncol; col < ncol + 3; col++) {
+//				if(board[row][col] == nbr) {
+//					f++;
+//				}
+				if(row != r && c != col && board[row][col] == nbr) {
+					return false;
 				}
 			}
 		}
-		//return true;
-		return (ff == unique);
+		return true;
+		//return (ff == unique);
 	}
 
 	@Override
 	public boolean solve() {
-		return solveV3(0,0);
+		return  isAllValid() && solve(0,0);
 	}
-
 	
-	
-	
-	private boolean solveV2(int r, int c) {
-		if(getNumber(r, c) == 0) {
-			if(r == 8 && c == 8) {
-				for(int i = 1; i <= 9; i++) {
-					setNumber(r, c, i);
-					if(isValid(r, c, i) && isAllValid()) {
-						return true;
-					}
-				 
-				}
-				return false;
-			}
-			
-			for(int i = 1; i <= 9; i++) {
-				setNumber(r, c, i);
-				if(isAllValid()) {
-					if(solve(r, c + 1)) {
-						return true;
-					} else if(solve(r + 1, 0)) {
-						return true;
-					} else {
-						//clearNumber(r, c);
-						return false;
-					}
-				}
-			}	
-		} else {
-				if(isAllValid()) {
-					if(c < 8) {
-						if(solve(r, 0)) {
-							return true;
-						}
-						
-						if(solve(r, c + 1)) {
-							return true;
-						}
-					}
-				}
-					
-				 
-			}
-		 return false;
-		}
-			
-
-	
-	
-	
-	
-	
-	
-
 	private boolean solve(int r, int c) {
 		
 		if(c == getDimension()) {
@@ -277,23 +205,31 @@ public class Sudoku implements SudokuSolver {
 			}
 		}
 
-		for(int i = 1; i <= 9; i++) {
-			if(isValid(r,c,i) && isAllValid()) {
-				if(getNumber(r,c) == 0) {
-					setNumber(r,c,i);	
-				} 
-				if(solve(r, c + 1)) {
-					return true;
-				} else {
-					clearNumber(r,c);
+		if(getNumber(r, c) == 0) {
+			for(int i = 1; i <= 9; i++) {
+				if(isValid(r, c, i)) {
+						setNumber(r, c, i);	 
+					if(solve(r, c + 1)) {
+						return true;
+					} else {
+						clearNumber(r, c);
+					}
 				}
 			}
+			return false;
 		}
-		return false;
+		else {
+			if(isValid(r, c, getNumber(r, c))) {
+				return solve(r, c + 1);
+			}
+			return false;
+		}
 	}
 
 	
-
+	/**
+	 * Prints the sudoku to the user (if preferred used without GUI).
+	 */
 	public void printSudoku() {
 		System.out.println();
 		for(int i = 0; i < 9; i++) {
@@ -304,17 +240,25 @@ public class Sudoku implements SudokuSolver {
 		}
 	}
 	
-
+	/**
+	 * Clears all positions in the sudoku.
+	 */
 	@Override
 	public void clear() {
 		for(int i = 0; i < getDimension(); i++) {
-			for(int y = 0; y < getDimension(); y++) {
-				board[i][y] = 0;
+			for(int j = 0; j < getDimension(); j++) {
+				board[i][j] = 0;
 				
 			}
 		}
 	}
-
+	
+	/**
+	 * Returns the numbers in the grid. An empty box i represented
+	 * by the value 0.
+	 * 
+	 * @return the numbers in the grid
+	 */
 	@Override
 	public int[][] getMatrix() {
 		int[][] temp = new int[getDimension()][getDimension()];
@@ -325,13 +269,37 @@ public class Sudoku implements SudokuSolver {
 		}
 		return temp;
 	}
-
+	
+	/**
+	 * Fills the grid with the numbers in nbrs.
+	 * 
+	 * @param nbrs the matrix with the numbers to insert
+	 * @throws IllegalArgumentException
+	 *             if nbrs have wrong dimension or containing values not in [0..9] 
+	 */
 	@Override
 	public void setMatrix(int[][] nbrs) {
-		if(nbrs.length != getDimension() || nbrs[0].length != getDimension()) {
-			throw new IllegalArgumentException();
+		boolean inValid = false;
+		
+		for(int i = 0; i < nbrs.length; i++) {
+			for(int j = 0; j < nbrs.length; j++) {
+				if((nbrs[i][j] < 0) || (nbrs[i][j] > 9)) {
+					inValid = true;
+				}
+			}
 		}
-		board = nbrs;
+		
+		if(nbrs.length != getDimension() || nbrs[0].length != getDimension() || inValid) {
+			throw new IllegalArgumentException();
+		} else {
+			int[][] temp = new int[getDimension()][getDimension()];
+			for(int i = 0; i < getDimension(); i++) {
+				for(int j = 0; j < getDimension(); j++) {
+					temp[i][j] = nbrs[i][j];	
+				}
+			}
+		board = temp;
+		}
 	}
 
 	
@@ -340,15 +308,21 @@ public class Sudoku implements SudokuSolver {
 	public static void main(String[] args) {
 		Sudoku s = new Sudoku();
 		
-		s.setNumber(8, 2, 2);
-		s.setNumber(2, 4, 3);
-		System.out.print(s.isAllValid());
-		s.printSudoku();
-		System.out.print(s.checkQuadrant(2, 4, 2, 1));
+		//s.setNumber(8, 2, 2);
+		//s.setNumber(2, 4, 3);
+		//System.out.println(s.isValid(0, 0, 1));
+		//System.out.println(s.isValid(1, 1, 3));
+		System.out.println(s.isAllValid());
+		System.out.println("row "  + s.checkRowsCols(0, 0, 2, 0));
 		
-		System.out.print("row "  + s.checkRowsCols(8, 2, 2, 1));		
-//		System.out.print(s.solve());
-//		s.printSudoku();
+		System.out.println(s.getNumber(0, 1));
+		
+		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
+		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
+		
+		System.out.println("row "  + s.checkRowsCols(8, 2, 2, 1));		
+		System.out.println("solve = " + s.solve());
+		//s.printSudoku();
 	}
 }
 	
