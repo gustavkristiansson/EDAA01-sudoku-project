@@ -109,18 +109,11 @@ public class Sudoku implements SudokuSolver {
 		if(!checkDimension(r, c) || nbr < 1 || nbr > 9) {
 			throw new IllegalArgumentException();
 		} else {
-			return (checkRowsCols(r, c, nbr, 0) && checkQuadrant(r, c, nbr, 0));
+			return (checkRowsCols(r, c, nbr) && checkQuadrant(r, c, nbr));
 		}
 	}
 	
-	private boolean checkRowsCols(int r, int c, int nbr, int unique) {
-//		if(nbr == 0) {
-//		return true;
-//	}
-	
-//		int ff = 0;
-		
-
+	private boolean checkRowsCols(int r, int c, int nbr) {
 		for(int i = 0; i < getDimension(); i++) {
 			if(board[r][i] == nbr && i != c) {
 				return false;
@@ -131,22 +124,23 @@ public class Sudoku implements SudokuSolver {
 			if(board[i][c] == nbr && i != r) {
 				return false;
 			}
-		}
-		
-//		for(int i = 0; i < getDimension(); i++) {
-//			if((board[i][c] == nbr && i != c)|| (board[r][i] == nbr && i != r)) {
-//				ff++;
-//				
-//				return false;
-//			}
-//		}
-		//ff = ff - ff/2;
-		//return (ff == unique);	
-		
+		}		
 		return true;
 	}
-			
 	
+	private boolean checkQuadrant(int r, int c, int nbr) {
+		int ncol = 3 * (c / 3);
+		int nrow = 3 * (r / 3);
+		
+		for(int row = nrow; row < nrow + 3; row++) {
+			for(int col = ncol; col < ncol + 3; col++) {
+				if(row != r && c != col && board[row][col] == nbr) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * Checks that all filled in numbers are valid according to sudoku rules.
@@ -158,39 +152,12 @@ public class Sudoku implements SudokuSolver {
 				for(int j = 0; j < getDimension(); j++) {
 					if(board[i][j] != 0) {
 						if(!isValid(i, j, board[i][j])) {
-						//if(!checkRowsCols(i,j,board[i][j], 0) || !(checkQuadrant(i, j, board[i][j], 0))) {
-			
-						return false;
+							return false;
 						}
 					}	
 				}	
 			}
-			//return isAllValid();
 		return true;
-	}
-	
-	private boolean checkQuadrant(int r, int c, int nbr, int unique) {
-//		if(nbr == 0) {
-//			return true;
-//		}
-		
-		int ncol = 3 * (c / 3);
-		int nrow = 3 * (r / 3);
-		int ff = 0;
-		
-		
-		for(int row = nrow; row < nrow + 3; row++) {
-			for(int col = ncol; col < ncol + 3; col++) {
-//				if(board[row][col] == nbr) {
-//					f++;
-//				}
-				if(row != r && c != col && board[row][col] == nbr) {
-					return false;
-				}
-			}
-		}
-		return true;
-		//return (ff == unique);
 	}
 
 	/**
@@ -304,27 +271,22 @@ public class Sudoku implements SudokuSolver {
 					temp[i][j] = nbrs[i][j];	
 				}
 			}
-		board = temp;
+			board = temp;
 		}
 	}
 	
 	public static void main(String[] args) {
 		Sudoku s = new Sudoku();
 		
-		//s.setNumber(8, 2, 2);
-		//s.setNumber(2, 4, 3);
-		//System.out.println(s.isValid(0, 0, 1));
-		//System.out.println(s.isValid(1, 1, 3));
 		System.out.println(s.isAllValid());
-		System.out.println("row "  + s.checkRowsCols(0, 0, 2, 0));
+		System.out.println("row "  + s.checkRowsCols(0, 0, 2));
 		
 		System.out.println(s.getNumber(0, 1));
 		
 		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
 		//System.out.print(s.checkQuadrant(2, 4, 2, 1));
 		
-		System.out.println("row "  + s.checkRowsCols(8, 2, 2, 1));		
+		System.out.println("row "  + s.checkRowsCols(8, 2, 2));		
 		System.out.println("solve = " + s.solve());
-		//s.printSudoku();
 	}
 }
