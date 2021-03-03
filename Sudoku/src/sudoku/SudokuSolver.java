@@ -44,6 +44,21 @@ public interface SudokuSolver {
 	
 	// Kontrollerar om värdet nbr i rutan r,c är ok enligt reglerna.
 	// IllegalArgumentException om fel värde på r, c eller nbr
+	
+	/**
+	 * Checks if number at position r, c is valid according to Sudoku rules.
+	 * 
+	 * @param r
+	 * 				The row
+	 * @param c
+	 * 				The column
+	 * @param nbr
+	 * 				The number to check
+	 * @return true if number is valid else false.
+	 * @throws IllegalArgumentException() 
+	 * 				if r or c is outside [0..getDimension()-1] or
+	 * 				number is outside [1..9]
+	 */
 	public boolean isValid(int r, int c, int nbr);
 
 	/**
@@ -59,6 +74,9 @@ public interface SudokuSolver {
 	public boolean solve();
 		
 	// Tömmer alla rutorna i sudokut
+	/**
+	 * Clears all positions in the sudoku.
+	 */
 	public void clear();
 		
 	/**

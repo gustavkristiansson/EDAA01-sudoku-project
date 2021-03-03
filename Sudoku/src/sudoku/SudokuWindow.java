@@ -26,7 +26,6 @@ public class SudokuWindow {
 	JButton solveButton, clearButton;
 	JPanel buttonPanel;
 	JPanel boardPanel;
-	JLabel message;
 	OneLetterField[][] field;
 	Sudoku sudoku;
 	
@@ -42,7 +41,6 @@ public class SudokuWindow {
 		boardPanel = new JPanel();
 		solveButton = new SolveButton("Solve");
 		clearButton = new ClearButton("Clear");
-		message = new JLabel("Message prompt");
 		sudoku = new Sudoku();
 		field = new OneLetterField[9][9];
 		
@@ -137,6 +135,7 @@ public class SudokuWindow {
 //	}
 	
 	private class SolveButton extends JButton implements ActionListener {
+		
 		ImageIcon icon = new ImageIcon(Sudoku.class.getResource("problemSolved.gif").getFile());
 		
 		SolveButton(String name) {
@@ -152,7 +151,7 @@ public class SudokuWindow {
 					try {
 						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
 					} catch(NumberFormatException x) {
-						sudoku.setNumber(i, j, 0);
+						sudoku.clearNumber(i, j);
 						//JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 					}
 				}
@@ -164,9 +163,7 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
-				//JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
-				
-			//	JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
+				JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
 			}
 			else {
 				JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
@@ -186,7 +183,7 @@ public class SudokuWindow {
 		public void actionPerformed(ActionEvent e) {
 			for(int i = 0; i < 9; i++) {
 				for(int j = 0; j < 9; j++) {
-					sudoku.setNumber(i, j, 0);
+					sudoku.clear();
 					field[i][j].setText("0");
 				}
 			}

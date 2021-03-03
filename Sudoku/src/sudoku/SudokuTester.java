@@ -21,20 +21,35 @@ class SudokuTester {
 		mySudoku = null;
 		board = null;
 	}
-
+	
 	@Test
-	void testUnsolvable() {
-		board = new int[][] { 	{ 2, 0, 0, 3, 4, 5, 6, 7, 8 }, 
-								{ 3, 4, 5, 0, 8, 0, 1, 2, 6 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
+	void testUnsolvable() { //added a second 3 to furthest right column
+		board = new int[][] { 	{ 0, 0, 0, 0, 0, 0, 0, 0, 8 }, 
+								{ 1, 8, 0, 0, 0, 2, 3, 0, 0 },
+								{ 0, 6, 0, 0, 5, 7, 0, 0, 1 },
+								{ 0, 7, 0, 9, 6, 0, 0, 0, 3 },
+								{ 0, 9, 0, 7, 0, 4, 0, 1, 0 },
+								{ 0, 0, 0, 0, 8, 1, 0, 4, 0 },
+								{ 6, 0, 0, 2, 4, 0, 0, 8, 0 },
+								{ 0, 0, 4, 5, 0, 0, 0, 9, 3 },
+								{ 5, 0, 0, 0, 0, 0, 0, 0, 0 }, };
 		mySudoku = new Sudoku(board);
 		assertFalse(mySudoku.solve(), "Sudoku should not be solvable");
+	}
+
+	@Test
+	void testSolvable() {
+		board = new int[][] { 	{ 0, 0, 0, 0, 0, 0, 0, 0, 8 }, 
+								{ 1, 8, 0, 0, 0, 2, 3, 0, 0 },
+								{ 0, 6, 0, 0, 5, 7, 0, 0, 1 },
+								{ 0, 7, 0, 9, 6, 0, 0, 0, 0 },
+								{ 0, 9, 0, 7, 0, 4, 0, 1, 0 },
+								{ 0, 0, 0, 0, 8, 1, 0, 4, 0 },
+								{ 6, 0, 0, 2, 4, 0, 0, 8, 0 },
+								{ 0, 0, 4, 5, 0, 0, 0, 9, 3 },
+								{ 5, 0, 0, 0, 0, 0, 0, 0, 0 }, };
+		mySudoku = new Sudoku(board);
+		assertTrue(mySudoku.solve(), "Sudoku should be solvable");
 	}
 	
 	@Test
