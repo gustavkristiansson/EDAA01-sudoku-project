@@ -135,6 +135,7 @@ public class SudokuWindow {
 //	}
 	
 	private class SolveButton extends JButton implements ActionListener {
+		
 		ImageIcon icon = new ImageIcon(Sudoku.class.getResource("problemSolved.gif").getFile());
 		
 		SolveButton(String name) {
