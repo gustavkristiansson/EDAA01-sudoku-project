@@ -1,18 +1,25 @@
 package sudoku;
 
-import java.util.Arrays;
-
 public class Sudoku implements SudokuSolver {
 	private int board [][];
 	
+	/**
+	 * Creates a new sudoku with a standard 9x9 board.
+	 */
 	public Sudoku() {
 		setMatrix(new int[9][9]);
 	}
 	
+	/**
+	 * Creates a new sudoku with given board (has to be 9x9).
+	 */
 	public Sudoku(int[][] board) {
-		this.board = board;
+		setMatrix(board);
 	}
 	
+	/**
+	 * Creates a new sudoku board with a given dimension.
+	 */
 	public Sudoku(int dimension) {
 		this.board = new int[dimension][dimension];
 	}
@@ -114,8 +121,6 @@ public class Sudoku implements SudokuSolver {
 //		int ff = 0;
 		
 
-		
-		
 		for(int i = 0; i < getDimension(); i++) {
 			if(board[r][i] == nbr && i != c) {
 				return false;
@@ -158,8 +163,7 @@ public class Sudoku implements SudokuSolver {
 						return false;
 						}
 					}	
-				}
-				
+				}	
 			}
 			//return isAllValid();
 		return true;
@@ -189,6 +193,9 @@ public class Sudoku implements SudokuSolver {
 		//return (ff == unique);
 	}
 
+	/**
+	 * Solves the sudoku recursively and checks that all existing numbers are valid.
+	 */
 	@Override
 	public boolean solve() {
 		return  isAllValid() && solve(0,0);
@@ -226,8 +233,6 @@ public class Sudoku implements SudokuSolver {
 		}
 	}
 
-
-	
 	/**
 	 * Prints the sudoku to the user (if preferred used without GUI).
 	 */
@@ -272,7 +277,7 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	/**
-	 * Fills the grid with the numbers in nbrs.
+	 * Fills the board with the numbers in nbrs.
 	 * 
 	 * @param nbrs the matrix with the numbers to insert
 	 * @throws IllegalArgumentException
@@ -302,9 +307,6 @@ public class Sudoku implements SudokuSolver {
 		board = temp;
 		}
 	}
-
-	
-	//test med main
 	
 	public static void main(String[] args) {
 		Sudoku s = new Sudoku();
@@ -326,10 +328,3 @@ public class Sudoku implements SudokuSolver {
 		//s.printSudoku();
 	}
 }
-	
-	
-
-
-
-
-
