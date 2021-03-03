@@ -164,7 +164,7 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
-				JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
+				//JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
 				
 			//	JOptionPane.showMessageDialog(boardPanel, "Sudokut löst!");
 			}
