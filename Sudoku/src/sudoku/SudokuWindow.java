@@ -2,6 +2,7 @@ package sudoku;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -26,17 +27,22 @@ public class SudokuWindow {
 	JPanel boardPanel;
 	OneLetterField[][] field;
 	Sudoku sudoku;
+	Container pane; 
 	
+	/**
+	 * Creates a new sudoku window with a visible GUI.
+	 */
 	public SudokuWindow() {
 		SwingUtilities.invokeLater(() -> createWindow("Sudoku", 400, 500));
 	}
 	
 	private void createWindow(String title, int width, int height) {
 		
-		/** Instansierar samtliga element*/
+		/** Instantiates all elements*/
 		frame = new JFrame(title);
 		buttonPanel = new JPanel();
 		boardPanel = new JPanel();
+		pane = frame.getContentPane();
 		solveButton = new SolveButton("Solve");
 		clearButton = new ClearButton("Clear");
 		sudoku = new Sudoku();
@@ -56,7 +62,7 @@ public class SudokuWindow {
 			}
 		}
 		
-		/** Sätter gränser för fönster*/
+		/** Sets borders and settings for window */
 		frame.setSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -64,11 +70,10 @@ public class SudokuWindow {
 		buttonPanel.add(solveButton);
 		buttonPanel.add(clearButton);
 		
-		
 		boardPanel.setLayout(new GridLayout(9,9));
 		
-		frame.add(buttonPanel, BorderLayout.SOUTH);
-		frame.add(boardPanel, BorderLayout.CENTER);
+		pane.add(buttonPanel, BorderLayout.SOUTH);
+		pane.add(boardPanel, BorderLayout.CENTER);
 
 		frame.setVisible(true);
 	}
@@ -81,17 +86,15 @@ public class SudokuWindow {
 			setDocument(new OneNumberDocument());
 		}
 		
-		public void clearField() {
-			removeAll();
-			setDocument(new OneNumberDocument());
-		}
-		
 		private class OneNumberDocument extends PlainDocument {
 			
 			OneNumberDocument() {
 				super();
 			}
 			
+			/**
+			 * Checks whether a String can be inserted 
+			 */
 			@Override
 			public void insertString(int comp, String string, AttributeSet set) throws BadLocationException {
 				if(string.equals("") || string.equals("0")) {
@@ -126,7 +129,6 @@ public class SudokuWindow {
 						sudoku.setNumber(i, j, Integer.parseInt(field[i][j].getText()));
 					} catch(NumberFormatException x) {
 						sudoku.clearNumber(i, j);
-						//JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
 					}
 				}
 			}
@@ -137,7 +139,7 @@ public class SudokuWindow {
 						field[i][j].setText(String.valueOf(sudoku.getNumber(i, j)));
 					}
 				}
-				JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
+				//JOptionPane.showMessageDialog(boardPanel, "", "Sudoku löst", JOptionPane.INFORMATION_MESSAGE, icon);
 			}
 			else {
 				JOptionPane.showMessageDialog(boardPanel, "Sudokut ej lösbart");
