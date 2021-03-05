@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"sudoku","l":"Sudoku"},{"p":"sudoku","l":"SudokuSolver"},{"p":"sudoku","l":"SudokuWindow"}]

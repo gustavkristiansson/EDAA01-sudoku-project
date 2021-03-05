@@ -12,6 +12,7 @@ public class Sudoku implements SudokuSolver {
 	
 	/**
 	 * Creates a new sudoku with given board (has to be 9x9).
+	 * @param board
 	 */
 	public Sudoku(int[][] board) {
 		setMatrix(board);
@@ -19,6 +20,7 @@ public class Sudoku implements SudokuSolver {
 	
 	/**
 	 * Creates a new sudoku board with a given dimension.
+	 * @param dimension
 	 */
 	public Sudoku(int dimension) {
 		this.board = new int[dimension][dimension];
@@ -57,8 +59,6 @@ public class Sudoku implements SudokuSolver {
 	 *            The row
 	 * @param c
 	 *            The column
-	 * @param number
-	 *            The number to insert in r, c
 	 * @return the number in box r,c or 0 if the box is empty.
 	 * @throws IllegalArgumentException
 	 *             if r or c is outside [0..getDimension()-1]
@@ -93,14 +93,14 @@ public class Sudoku implements SudokuSolver {
 	/**
 	 * Checks if number at position r, c is valid according to Sudoku rules.
 	 * 
-	 * @param r
-	 * 				The row
-	 * @param c
-	 * 				The column
-	 * @param nbr
-	 * 				The number to check
+	 * @param r    	The row
+	 * 				
+	 * @param c		The column
+	 * 				
+	 * @param nbr	The number to check
+	 * 				
 	 * @return true if number is valid else false.
-	 * @throws IllegalArgumentException() 
+	 * @throws IllegalArgumentException
 	 * 				if r or c is outside [0..getDimension()-1] or 
 	 * 				number is outside [1..9] 
 	 */
