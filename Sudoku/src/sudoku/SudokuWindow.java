@@ -93,7 +93,7 @@ public class SudokuWindow {
 			}
 			
 			/**
-			 * Checks whether a String can be inserted 
+			 * Checks whether a String can be inserted. 
 			 */
 			@Override
 			public void insertString(int comp, String string, AttributeSet set) throws BadLocationException {
@@ -120,7 +120,11 @@ public class SudokuWindow {
 			
 			addActionListener(this);
 		}
-
+		
+		
+		/**
+		 * Fills the grid with numbers fetched from solvable sudoku.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for(int i = 0; i < 9; i++) {
@@ -155,6 +159,9 @@ public class SudokuWindow {
 			addActionListener(this);
 		}
 		
+		/**
+		 * Clears all numbers in the sudoku grid.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for(int i = 0; i < 9; i++) {
