@@ -40,9 +40,6 @@ public interface SudokuSolver {
 	 */
 	public void clearNumber(int r, int c);
 	
-	// Kontrollerar om värdet nbr i rutan r,c är ok enligt reglerna.
-	// IllegalArgumentException om fel värde på r, c eller nbr
-	
 	/**
 	 * Checks if number at position r, c is valid according to Sudoku rules.
 	 * 
@@ -71,7 +68,6 @@ public interface SudokuSolver {
 	 */
 	public boolean solve();
 		
-	// Tömmer alla rutorna i sudokut
 	/**
 	 * Clears all positions in the sudoku.
 	 */
@@ -93,7 +89,6 @@ public interface SudokuSolver {
 	 *             if nbrs have wrong dimension or containing values not in [0..9] 
 	 */
 	public void setMatrix(int[][] nbrs);
-		
 	
 	/**
 	 * Returns the dimension of the grid
