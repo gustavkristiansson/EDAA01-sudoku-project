@@ -26,7 +26,7 @@ public class SudokuWindow {
 	JPanel buttonPanel;
 	JPanel boardPanel;
 	OneLetterField[][] field;
-	Sudoku sudoku;
+	SudokuSolver sudoku;
 	Container pane; 
 	
 	/**
