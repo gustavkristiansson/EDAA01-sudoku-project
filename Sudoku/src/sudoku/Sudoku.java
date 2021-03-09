@@ -19,14 +19,6 @@ public class Sudoku implements SudokuSolver {
 	}
 	
 	/**
-	 * Creates a new sudoku board with a given dimension.
-	 * @param dimension
-	 */
-	public Sudoku(int dimension) {
-		this.board = new int[dimension][dimension];
-	}
-	
-	/**
 	 * Sets the number nbr in box r, c.
 	 * 
 	 * @param r
@@ -125,7 +117,7 @@ public class Sudoku implements SudokuSolver {
 				return false;
 			}
 		}		
-		return true;
+		return true; 
 	}
 	
 	private boolean checkQuadrant(int r, int c, int nbr) {

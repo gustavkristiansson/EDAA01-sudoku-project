@@ -52,6 +52,24 @@ class SudokuTester {
 	}
 	
 	@Test
+	void testGetMatrix() {
+		mySudoku.setMatrix(new int[9][9]);
+		mySudoku.setNumber(8, 4, 5);
+		int[][] board = mySudoku.getMatrix();
+		assertTrue(board[8][4] == 5);
+	}
+	
+	@Test
+	void testClear() {
+		mySudoku.setNumber(6, 4, 1);
+		mySudoku.setNumber(3, 4, 8);
+		mySudoku.clear();
+		assertTrue(mySudoku.getNumber(6, 4) == 0);
+		assertTrue(mySudoku.getNumber(3, 4) == 0);
+	}
+	
+	
+	@Test
 	void testUnsolvable() { //added a second 3 to furthest right column
 		board = new int[][] { 	{ 0, 0, 0, 0, 0, 0, 0, 0, 8 }, 
 								{ 1, 8, 0, 0, 0, 2, 3, 0, 0 },
