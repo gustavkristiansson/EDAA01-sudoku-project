@@ -23,6 +23,35 @@ class SudokuTester {
 	}
 	
 	@Test
+	void testSetNumber() {
+		mySudoku.setNumber(0, 5, 8);
+		assertTrue(mySudoku.isValid(0, 5, 8));
+		assertTrue(mySudoku.isAllValid());
+	}
+	
+	@Test
+	void testGetNumber() {
+		mySudoku.setNumber(0, 5, 8);
+		assertTrue(mySudoku.getNumber(0, 5) == 8);
+		assertTrue(mySudoku.isAllValid());
+		mySudoku.clearNumber(0, 5);
+	}
+	
+	@Test
+	void testIsAllValidFalse() {
+		mySudoku.setNumber(5, 3, 9);
+		mySudoku.setNumber(5, 7, 9);
+		assertFalse(mySudoku.isAllValid());
+	}
+	
+	@Test
+	void testIsAllValidTrue() {
+		mySudoku.setNumber(5, 3, 9);
+		mySudoku.setNumber(5, 7, 6);
+		assertTrue(mySudoku.isAllValid());
+	}
+	
+	@Test
 	void testUnsolvable() { //added a second 3 to furthest right column
 		board = new int[][] { 	{ 0, 0, 0, 0, 0, 0, 0, 0, 8 }, 
 								{ 1, 8, 0, 0, 0, 2, 3, 0, 0 },
